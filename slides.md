@@ -20,8 +20,8 @@ layout: center
 <!-- We're building an open-source file browser with a React-powered UI and Rust backend that generates and synchronises an index of all your files across all your devices -->
 
 <div class="flex flex-col space-y-6 items-center">
-	<img class="h-20" src="assets/spacedrive-logo.png" />
-	<img class="h-100" src="assets/spacedrive-app.webp" />
+	<img class="h-20" src="/assets/spacedrive-logo.png" />
+	<img class="h-100" src="/assets/spacedrive-app.webp" />
 </div>
 
 ---
@@ -158,7 +158,7 @@ class: text-center
 ---
 
 
-<img class="h-64" src="assets/rhf-logo.png" />
+<img class="h-64" src="/assets/rhf-logo.png" />
 
 
 
