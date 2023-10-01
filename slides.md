@@ -16,7 +16,7 @@ Thank you all for coming to listen to me talk about forms of all things
 
 ---
 layout: image-right
-image: ./assets/github-pinned.png
+image: /github-pinned.png
 ---
 
 <div class="h-full flex flex-col justify-center items-center">
