@@ -63,11 +63,36 @@ layout: center
 -->
 
 ---
+layout: center
+---
 
-# Spacedrive Forms
+<div class="flex flex-row -gap-8">
+<img src="/assets/location-settings.png" class="h-120">
 
-- Location settings
-- Onboarding form
+<v-click>
+<img src="/assets/tag-create.png" class="h-120 -ml-64">
+</v-click>
+
+</div>
+
+<v-click>
+<div class="absolute inset-0 flex flex-row gap-4 justify-center items-center bg-black/20 backdrop-blur-[1px]">
+<img src="/assets/onboarding-library.png" class="h-100">
+<img src="/assets/onboarding-privacy.png" class="h-100">
+</div>
+</v-click>
+
+<!--
+- Settings Forms
+
+*click*
+
+- Forms inside modals
+
+*click*
+
+- Multi-step wizard forms
+-->
 
 ---
 class: text-center
@@ -119,6 +144,33 @@ function LoginForm() {
 ```
 
 </div>
+
+<!--
+- Here's a basic form
+
+*click*
+
+- Each field gets its own `useState`
+
+*click*
+
+- Each input geta two-way bindings
+
+*click*
+
+- Submit button bc every form needs one
+
+*click*
+
+- Form has `onSubmit` handler with `preventDefault` to prevent page reloading
+- Form values captured into callback from `useState`
+
+*click*
+
+- Gets the job done for basic forms, but is cumbersome and could go wrong
+- Input names aren't validated, bindings could be hooked up incorrectly
+-->
+
 ---
 layout: center
 ---
@@ -152,6 +204,19 @@ function LoginForm() {
 ```
 
 - TODO: Remix
+
+<!--
+- Keep in mind, we're just talking about client-controlled forms
+
+*click*
+
+- Some tools have their own ways of managing forms,
+- What we'll talk about isn't necessarily mutually exclusive to them
+
+*click*
+
+- They won't be considered as part of this
+-->
 
 ---
 layout: center
@@ -196,15 +261,34 @@ function LoginForm() {
 
 </div>
 
+<!--
+- So, where are we at?
+
+*click*
+
+- This evidently works alright for small forms
+- Could get hairy with more fields and more logic eg. communicating with a server in onSubmit
+
+*click*
+
+- Also, not typesafe
+- Form data being spread over each `useState` rather than centralised in one place
+- What can we do about this? First thing we'll use is...
+-->
+
 ---
 layout: center
 class: text-center
 ---
 
-
 <img class="h-64" src="/assets/rhf-logo.png" />
 
-
+<!--
+- React Hook Form
+- Library to help with form state management
+- Builtin validation utilities
+- Will help with typesafety later on 👀
+-->
 
 ---
 layout: center
@@ -214,7 +298,7 @@ layout: center
 
 <div>
 
-```tsx {2-3|7-8|12-13,17-18|all} {at:0}
+```tsx {2-3|6-9|12-13,17-18|all} {at:0}
 function LoginForm() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -244,7 +328,7 @@ function LoginForm() {
 
 <div>
 
-```tsx {1,4|8|12,16|all} {at:0}
+```tsx {1,4|7-9|12,16|all} {at:0}
 import { useForm } from "react-hook-form";
 
 function LoginForm() {
@@ -271,6 +355,23 @@ function LoginForm() {
 </div>
 
 </div>
+
+<!--
+- Individual `useState` become single `useForm`
+
+*click*
+
+- `handleSubmit` wrapper calls `preventDefault` for us and collects all form fields into single object
+
+*click*
+
+- `name` prop and data bindings all handled by single `register` call
+
+*click*
+
+- Not sure about you, but I much prefer this form
+- It's not a whole lot less code, but we're only just getting started 😉
+-->
 
 ---
 layout: center
