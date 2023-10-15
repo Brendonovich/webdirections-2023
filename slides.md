@@ -292,6 +292,7 @@ class: text-center
 
 ---
 layout: center
+clicks: 3
 ---
 
 <div class="flex flex-row items-center space-x-8">
@@ -340,11 +341,11 @@ function LoginForm() {
 		}>
 			<input
 				type="email" required
-				{...register("email")}
+				{...form.register("email")}
 			/>
 			<input
 				type="password" required
-				{...register("password")}
+				{...form.register("password")}
 			/>
 			<button type="submit" />
 		</form>
@@ -393,11 +394,11 @@ function LoginForm() {
 		}>
 			<input
 				type="email" required
-				{...register("email")}
+				{...form.register("email")}
 			/>
 			<input
 				type="password" required
-				{...register("password")}
+				{...form.register("password")}
 			/>
 			<button type="submit" />
 		</form>
@@ -430,6 +431,7 @@ What do we think of this?
 
 ---
 layout: center
+clicks: 4
 ---
 
 <div class="flex flex-row items-center gap-8">
@@ -454,12 +456,12 @@ function LoginForm() {
 		}>
 			<input
 				type="email" required
-				{...register("email")}
+				{...form.register("email")}
 //					          ^? "email" | "password"
 			/>
 			<input
 				type="password" required
-				{...register("password")}
+				{...form.register("password")}
 //					          ^? "email" | "password"
 			/>
 			<button type="submit" />
@@ -503,7 +505,7 @@ function LoginForm() {
 layout: center
 ---
 
-```tsx {|3-6|12-15} {at:0}
+```tsx {|3-6|12-15|} {at:0}
 import { useForm } from "react-hook-form";
 
 type Form = {
@@ -517,7 +519,7 @@ function CountForm() {
 		<form onSubmit={form.handleSubmit(console.log)}>
 			<input
 				type="number" required
-				{...register("count")}
+				{...form.register("count")}
 			/>
 			<button type="submit" />
 		</form>
@@ -527,17 +529,21 @@ function CountForm() {
 
 <!--
 Take this example:
-- Single number filed
+- Single number field
+*click*
 - Input with `type="number"`
+*click*
 - According to TypeScript, this is fine
-- Actually, the `value` received for `count` will be a string
+- This code actually has a bug
+	- RHF uses input's `value` property by default
+    - `value` is always a string
 -->
 
 ---
 layout: center
 ---
 
-```tsx {12-16}
+```tsx {12-17}
 import { useForm } from "react-hook-form";
 
 type Form = {
@@ -551,8 +557,9 @@ function LoginForm() {
 		<form onSubmit={form.handleSubmit(console.log)}>
 			<input
 				type="number" required
-				valueAsNumber
-				{...register("count")}
+				{...form.register("count", {
+					valueAsNumber: true
+				})}
 			/>
 			<button type="submit" />
 		</form>
@@ -564,7 +571,7 @@ function LoginForm() {
 - Necessary to add `valueAsNumber` to force conversion
 - This isn't typesafe at all!
   - Might forget to put `valueAsNumber`
-- This calls for some validation...
+- What if we could validate the data before submit handler is ran?
 -->
 
 ---
@@ -602,7 +609,7 @@ layout: center
 layout: center
 ---
 
-```tsx {1,5-9|1-2,12|1,3,5-9,13|}
+```tsx {1,5-9|1-2,5-9,12|all}
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResovler } from "@hookform/resolvers"
@@ -623,7 +630,9 @@ const form = useForm<z.infer<typeof schema>>({
 - First, we declare schema
   - Represents the shape of `handleSubmit` data + defines validations
   - Zod comes with a bunch of validation functions, so we can validate emails easily and enforce minimum lengths
-- Second, we infer the type of the form _from_ the schema, effectively killing 2 bird with 1 stone
+*click*
+- Second, we infer the type of the form _from_ the schema, effectively killing 2 birds with 1 stone
+*click*
 - Last, we set the schema as our form's 'resolver', meaning that it will be used for all validation
 -->
 
@@ -648,19 +657,18 @@ function LoginForm() {
 
 	return (
 		<form onSubmit={form.handleSubmit(console.log)}>
-			<input
-				type="email"
-				{...register("email")}
-			/>
-			<input
-				type="password"
-				{...register("password")}
-			/>
+			<input type="email" {...form.register("email")} />
+			<input type="password" {...form.register("password")} />
 			<button type="submit" />
 		</form>
 	)
 }
 ```
+
+<!--
+Here's what that looks like
+- Schema replaces type
+-->
 
 ---
 layout: center
@@ -682,10 +690,7 @@ function CountForm() {
 
 	return (
 		<form onSubmit={form.handleSubmit(console.log)}>
-			<input
-				type="number"
-				{...register("count")}
-			/>
+			<input type="number" {...form.register("count")} />
 			<button type="submit" />
 		</form>
 	)
@@ -693,15 +698,411 @@ function CountForm() {
 ```
 
 <!--
-- Here we don't need to remember `valueAsNumber`
-- We can treat `<input>` with `type="number"` as though they return strings
+- In cases with number inputs, can use `z.coerce()` to convert string to number for us
+  - Less typesafe than dedicated `<NumberInput />`, but...
+  - `z.number()` would produce error if not used, preventing `onSubmit` for ever being called
 
-- Great, we've got Zod and RHF working together
+- Great, we've got Zod and RHF working together, but...
+*click*
 - We've got code duplication on every form
 - Wouldn't it be great to have a **custom hook** that can wrap `schema` in `zodResolver`, and also insert the generic for us?
+- Well...
+-->
+---
+layout: center
+---
+
+<div class="transform scale-120">
+
+```ts
+import { useForm, UseFormProps } from "react-hook-form";
+import { zodResovler } from "@hookform/resolvers"
+import { ZodSchema, z } from "zod""
+
+type UseZodFormProps<T extends ZodSchema> =
+  Omit<UseFormProps<z.infer<T>>, 'resolver'>
+  & { schema: T }
+
+export function useZodForm<T extends ZodSchema>({
+	schema,
+	...props
+}: UseZodFormProps<T>) {
+	return useForm({
+		...props,
+		resolver: zodResolver(schema)
+	});
+}
+```
+
+</div>
+
+<!--
+- How about this?
+  - Calls `useForm` and automatically provides `schema` as `resolver`
+- These types may look scary, but don't worry!
+  - `UseZodFormProps` is just the type that `useForm` expects, but removes `resolver` since we're providing it ourselves, and adds `schema`
+  - `T` represents the type of the schema we provide - without it, types wouldn't be passed through to things like `handleSubmit`
+- Our form now looks like...
 -->
 
 ---
+layout: center
+---
 
 ```tsx
+import { z } from "zod"
+import { useZodForm } from "./useZodForm"
+
+const schema = z.object({
+	email: z.string().email(),
+	password: z.string().min(8)
+})
+
+function LoginForm() {
+	const form = useZodForm({ schema });
+
+	return (
+		<form onSubmit={form.handleSubmit(console.log)}>
+			<input type="email" {..form..register("email")} />
+			<input type="password" {...form.register("password")} />
+			<button type="submit" />
+		</form>
+	)
+}
 ```
+
+<!--
+- Looks like this!
+  - All form logic hidden behind hook
+  - No more manual types
+  - What I think a good TS experience should be
+    - Types should be declared once + flow through
+- ...
+- What if validation doesn't succeed?
+- RHF can help here too
+-->
+
+---
+layout: center
+---
+
+<div class="transform scale-120">
+
+```tsx {4}
+function LoginForm() {
+	const form = useZodForm({ schema });
+
+	const { errors } = form.formState;
+
+	return (
+		<form onSubmit={form.handleSubmit(console.log)}>
+			<input type="email" {..form..register("email")} />
+			<input type="password" {...form.register("password")} />
+			<button type="submit" />
+		</form>
+	)
+}
+```
+
+</div>
+
+<!--
+- Gives us handy `errors` object which we can then...
+-->
+
+---
+layout: center
+---
+
+```tsx {4,13,20|}
+function LoginForm() {
+	const form = useZodForm({ schema });
+
+	const { errors } = form.formState;
+
+	return (
+		<form onSubmit={form.handleSubmit(console.log)}>
+			<div>
+				<input type="email" {..form.register("email")} />
+				{errors.email && <p>{errors.email.message}</p>}
+			</div>
+			<div>
+				<input type="password" {...form.register("password")} />
+				{errors.password && <p>{errors.email.password}</p>}
+			</div>
+			<button type="submit" />
+		</form>
+	)
+}
+```
+
+<!--
+- We can then _use_ to display errors for each field
+- btw `errors` is typesafe - TS will yell at us if we try get errors for a non-existent field
+*click*
+- This gets repetitive though
+- Better solution is to group the input and error into a separate component
+-->
+
+---
+layout: center
+---
+
+<div class="flex flex-row items-center gap-8">
+
+```tsx
+import { Input } from "./Input";
+
+function LoginForm() {
+	const form = useZodForm({ schema });
+
+	return (
+		<form onSubmit={form.handleSubmit(console.log)}>
+			<Input type="email" {...form.register("email")} />
+			<Input type="password" {...form.register("password")} />
+			<button type="submit" />
+		</form>
+	)
+}
+```
+
+```tsx
+import { ComponentProps, forwardRef } from 'react';
+import { useFormContext } from 'react-hook-form';
+
+export const Input = forwardRef<
+	HTMLInputElement,
+	ComponentProps<'input'>
+>((props, ref) => {
+  const form = ??;
+
+  return (
+    <div>
+      <input {...props} ref={ref} />
+      {??.error && <p>{??.error.message}</p>}
+    </div>
+  );
+});
+```
+
+</div>
+
+<!--
+- Something like this
+- `Input` renders both the input _and_ the error if there is one
+- But where do we get `form` from?
+  - Could pass `form` to every `Input`, but that would get annoying
+  - If only there was a way to make a value available to all of a component's children...
+  - Wait a minute - we do have that!
+-->
+
+---
+layout: center
+clicks: 4
+---
+
+<div class="flex flex-row items-center gap-8">
+
+```tsx {|1,8,20|,||8-9,13-14} {at:0}
+import { FormProvider } from "react-hook-form";
+import { Input } from "./Input";
+
+function LoginForm() {
+	const form = useZodForm({ schema });
+
+	return (
+		<FormProvider {...form}>
+			<form onSubmit={form.handleSubmit(console.log)}>
+				<Input type="email" {...form.register("email")} />
+				<Input type="password" {...form.register("password")} />
+				<button type="submit" />
+			</form>
+		</FormProvider>
+	)
+}
+```
+
+```tsx {|2,8|10-14,18||,} {at:0}
+import { ComponentProps, forwardRef } from 'react';
+import { useFormContext } from 'react-hook-form';
+
+export const Input = forwardRef<
+	HTMLInputElement,
+	ComponentProps<'input'>
+>((props, ref) => {
+  const form = useFormContext();
+
+  const field = form.getFieldState(
+  	props.name,
+   	form.formState
+  );
+
+  return (
+    <div>
+      <input {...props} ref={ref} />
+      {field.error && <p>{field.error.message}</p>}
+    </div>
+  );
+});
+```
+
+</div>
+
+<!--
+- Context!
+*click*
+- RHF gives us this `FormProvider` we can consume with `useFormContext`
+*click*
+- Can then access field state with `getFieldState`
+*click*
+- While we're here, lets do something about...
+*click*
+- These, since every form is going to need them.
+-->
+
+---
+layout: center
+clicks: 2
+---
+
+<div class="flex flex-row items-center gap-8">
+
+```tsx {1,7,11|all|none} {at:0}
+import { Form } from "./Form";
+
+function LoginForm() {
+	const form = useZodForm({ schema });
+
+	return (
+		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
+			<Input type="email" {...form.register("email")} />
+			<Input type="password" {...form.register("password")} />
+			<button type="submit" />
+		</Form>
+	)
+}
+```
+
+```tsx {all|all|15-18} {at:0}
+import { ComponentProps } from 'react';
+import {
+  FieldValues,
+  FormProvider,
+  UseFormReturn,
+} from 'react-hook-form';
+
+type FormProps<T extends FieldValues> =
+  ComponentProps<'form'> & { form: UseFormReturn<T>; }
+
+export function Form<T extends FieldValues>({
+  form, ...props
+}: FormProps<T>) {
+  return (
+	  <FormProvider {...form}>
+	    <form {...props} />
+	  </FormProvider>
+  )
+};
+```
+
+</div>
+
+<!--
+- Let's put them in a dedicated component
+- We now provide our form via the `form` prop
+- It's propagated to all child fields
+*click*
+- Another thing I like to do is head down...
+*click*
+- here, and wrap all the children in a...
+-->
+
+---
+layout: center
+---
+
+<div class="flex flex-row items-center gap-8">
+
+```tsx {,} {at:0}
+import { Form } from "./Form";
+
+function LoginForm() {
+	const form = useZodForm({ schema });
+
+	return (
+		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
+			<Input type="email" {...form.register("email")} />
+			<Input type="password" {...form.register("password")} />
+			<button type="submit" />
+		</Form>
+	)
+}
+```
+
+```tsx {15-21} {at:0}
+import { ComponentProps } from 'react';
+import {
+  FieldValues,
+  FormProvider,
+  UseFormReturn,
+} from 'react-hook-form';
+
+type FormProps<T extends FieldValues> =
+  ComponentProps<'form'> & { form: UseFormReturn<T>; }
+
+export function Form<T extends FieldValues>({
+  form, children, ...props
+}: FormProps<T>) {
+  return (
+    <FormProvider {...form}>
+      <form {...props}>
+        <fieldset disabled={form.formState.isSubmitting}>
+          {children}
+        </fieldset>
+      </form>
+    </FormProvider>
+  )
+};
+```
+
+</div>
+
+<!--
+- `<fieldset>`, as it has a special property
+- If `disabled` is `true` then all form elements will also be `disabled`
+  - Won't be able to interact with buttons and inputs
+  - `disabled` css selector will be applied
+- While form is submitting, this disabled state will propagate
+ - If `handleSubmit` contains an async function, it will wait to resolve
+-->
+
+---
+layout: center
+---
+
+<div class="transform scale-110">
+
+```tsx
+import { useZodForm } from "./useZodForm";
+import { Input } from "./Input";
+import { Form } from "./Form";
+
+const schema = z.object({
+	email: z.string().email(),
+	password: z.string().min(8)
+})
+
+function LoginForm() {
+	const form = useZodForm({ schema });
+
+	return (
+		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
+			<Input type="email" {...form.register("email")} />
+			<Input type="password" {...form.register("password")} />
+			<button type="submit" />
+		</Form>
+	)
+}
+```
+ 
+</div>
