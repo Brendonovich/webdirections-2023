@@ -19,7 +19,7 @@ layout: image-right
 image: /github-pinned.png
 ---
 
-<div class="h-full flex flex-col justify-center items-center">
+<div class='h-full flex flex-col justify-center items-center'>
 
 # Who am I?
 
@@ -50,35 +50,34 @@ layout: center
 
 <!-- We're building an open-source file browser with a React-powered UI and Rust backend that generates and synchronises an index of all your files across all your devices -->
 
-<div class="flex flex-col space-y-6 items-center">
-	<img class="h-20" src="/assets/spacedrive-logo.png" />
-	<img class="h-100" src="/assets/spacedrive-app.webp" />
+<div class='flex flex-col space-y-6 items-center'>
+	<img class='h-20' src='/assets/spacedrive-logo.png' />
+	<img class='h-100' src='/assets/spacedrive-app.webp' />
 </div>
 
 <!--
 - At Spacedrive we are building an open-source file explorer designed to create and synchronise an index of all your files both locally and across cloud storage
 - Using Rust for backend and web tech for frontend - TypeScript, React, etc.
-- We have a lot of forms
-  - Settings, datacreation, forms in update modals, onboarding
+- We have a lot of forms...
 -->
 
 ---
 layout: center
 ---
 
-<div class="flex flex-row -gap-8">
-<img src="/assets/location-settings.png" class="h-120">
+<div class='flex flex-row -gap-8'>
+<img src='/assets/location-settings.png' class='h-120'>
 
 <v-click>
-<img src="/assets/tag-create.png" class="h-120 -ml-64">
+<img src='/assets/tag-create.png' class='h-120 -ml-64'>
 </v-click>
 
 </div>
 
 <v-click>
-<div class="absolute inset-0 flex flex-row gap-4 justify-center items-center bg-black/20 backdrop-blur-[1px]">
-<img src="/assets/onboarding-library.png" class="h-100">
-<img src="/assets/onboarding-privacy.png" class="h-100">
+<div class='absolute inset-0 flex flex-row gap-4 justify-center items-center bg-black/20 backdrop-blur-[1px]'>
+<img src='/assets/onboarding-library.png' class='h-100'>
+<img src='/assets/onboarding-privacy.png' class='h-100'>
 </div>
 </v-click>
 
@@ -92,6 +91,7 @@ layout: center
 *click*
 
 - Multi-step wizard forms
+- Par for the course, but you may take some pity on us since...
 -->
 
 ---
@@ -99,9 +99,9 @@ class: text-center
 layout: default
 ---
 
-<div class="w-full h-full flex flex-col items-center justify-center transform scale-75">
-	<Tweet class="min-w-lg" id="1610812416207495174" />
-	<Tweet class="min-w-lg" id="1255179383372836869" />
+<div class='w-full h-full flex flex-col items-center justify-center transform scale-75'>
+	<Tweet class='min-w-lg' id='1610812416207495174' />
+	<Tweet class='min-w-lg' id='1255179383372836869' />
 </div>
 
 <!--
@@ -115,29 +115,29 @@ layout: default
 layout: center
 ---
 
-<div class="flex flex-row space-x-8 items-center">
+<div class='flex flex-row space-x-8 items-center'>
 
 ```tsx {all|2-3|10-19|20|6-9|all}
 function LoginForm() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
 
 	return (
 		<form onSubmit={(e) => {
-			e.preventDefault();
+			e.preventDefault()
 			console.log({ email, password })
 		}}>
 			<input
-				name="email" type="email" required
+				name='email' type='email' required
 				value={email}
 				onChange={e => setEmail(e.target.value)}
 			/>
 			<input
-				name="password" type="password" required
+				name='password' type='password' required
 				value={password}
 				onChange={e => setPassword(e.target.value)}
 			/>
-			<button type="submit" />
+			<button type='submit' />
 		</form>
 	)
 }
@@ -179,25 +179,25 @@ layout: center
 
 ```tsx
 function LoginForm() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
 
 	return (
 		<form onSubmit={(e) => {
-			e.preventDefault();
+			e.preventDefault()
 			console.log({ email, password })
 		}}>
 			<input
-				name="email" type="email" required
+				name='email' type='email' required
 				value={email}
 				onChange={e => setEmail(e.target.value)}
 			/>
 			<input
-				name="password" type="password" required
+				name='password' type='password' required
 				value={password}
 				onChange={e => setPassword(e.target.value)}
 			/>
-			<button type="submit" />
+			<button type='submit' />
 		</form>
 	)
 }
@@ -222,29 +222,29 @@ function LoginForm() {
 layout: center
 ---
 
-<div class="flex flex-row space-x-4 items-center">
+<div class='flex flex-row space-x-4 items-center'>
 
 ```tsx
 function LoginForm() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
 
 	return (
 		<form onSubmit={(e) => {
-			e.preventDefault();
+			e.preventDefault()
 			console.log({ email, password })
 		}}>
 			<input
-				name="email" type="email" required
+				name='email' type='email' required
 				value={email}
 				onChange={e => setEmail(e.target.value)}
 			/>
 			<input
-				name="password" type="password" required
+				name='password' type='password' required
 				value={password}
 				onChange={e => setPassword(e.target.value)}
 			/>
-			<button type="submit" />
+			<button type='submit' />
 		</form>
 	)
 }
@@ -281,7 +281,7 @@ layout: center
 class: text-center
 ---
 
-<img class="h-64" src="/assets/rhf-logo.png" />
+<img class='h-64' src='/assets/rhf-logo.png' />
 
 <!--
 - React Hook Form
@@ -295,31 +295,31 @@ layout: center
 clicks: 3
 ---
 
-<div class="flex flex-row items-center space-x-8">
+<div class='flex flex-row items-center space-x-8'>
 
 <div>
 
 ```tsx {2-3|6-9|12-13,17-18|all} {at:0}
 function LoginForm() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
 
 	return (
 		<form onSubmit={(e) => {
-			e.preventDefault();
+			e.preventDefault()
 			console.log({ email, password })
 		}}>
 			<input
-				type="email" required
-				name="email" value={email}
+				type='email' required
+				name='email' value={email}
 				onChange={e => setEmail(e.target.value)}
 			/>
 			<input
-				type="password" required
-				name="password" value={password}
+				type='password' required
+				name='password' value={password}
 				onChange={e => setPassword(e.target.value)}
 			/>
-			<button type="submit" />
+			<button type='submit' />
 		</form>
 	)
 }
@@ -330,24 +330,24 @@ function LoginForm() {
 <div>
 
 ```tsx {1,4|7-9|12,16|all} {at:0}
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form'
 
 function LoginForm() {
-	const form = useForm();
+	const form = useForm()
 
 	return (
 		<form onSubmit={
 			form.handleSubmit((data) => console.log(data))
 		}>
 			<input
-				type="email" required
-				{...form.register("email")}
+				type='email' required
+				{...form.register('email')}
 			/>
 			<input
-				type="password" required
-				{...form.register("password")}
+				type='password' required
+				{...form.register('password')}
 			/>
-			<button type="submit" />
+			<button type='submit' />
 		</form>
 	)
 }
@@ -378,29 +378,29 @@ function LoginForm() {
 layout: center
 ---
 
-<div class="flex flex-row items-center space-x-8">
+<div class='flex flex-row items-center space-x-8'>
 
 <div>
 
 ```tsx
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form'
 
 function LoginForm() {
-	const form = useForm();
+	const form = useForm()
 
 	return (
 		<form onSubmit={
 			form.handleSubmit((data) => console.log(data))
 		}>
 			<input
-				type="email" required
-				{...form.register("email")}
+				type='email' required
+				{...form.register('email')}
 			/>
 			<input
-				type="password" required
-				{...form.register("password")}
+				type='password' required
+				{...form.register('password')}
 			/>
-			<button type="submit" />
+			<button type='submit' />
 		</form>
 	)
 }
@@ -434,20 +434,20 @@ layout: center
 clicks: 4
 ---
 
-<div class="flex flex-row items-center gap-8">
+<div class='flex flex-row items-center gap-8'>
 
 <div>
 
 ```tsx {3-6|9|13-14|18-19,23-24|} {at:0}
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form'
 
 type Form = {
-	email: string;
-	password: string;
+	email: string
+	password: string
 }
 
 function LoginForm() {
-	const form = useForm<Form>();
+	const form = useForm<Form>()'
 
 	return (
 		<form onSubmit={
@@ -455,16 +455,16 @@ function LoginForm() {
 //			                 ^? Form
 		}>
 			<input
-				type="email" required
-				{...form.register("email")}
-//					          ^? "email" | "password"
+				type='email' required
+				{...form.register('email')}
+//					          ^? 'email' | 'password'
 			/>
 			<input
-				type="password" required
-				{...form.register("password")}
-//					          ^? "email" | "password"
+				type='password' required
+				{...form.register('password')}
+//					          ^? 'email' | 'password'
 			/>
-			<button type="submit" />
+			<button type='submit' />
 		</form>
 	)
 }
@@ -472,13 +472,13 @@ function LoginForm() {
 
 </div>
 
-<div class="flex flex-col items-center space-y-8">
+<div class='flex flex-col items-center space-y-8'>
 
 <div>
 
 # Adding Types
 
-<v-clicks at="0">
+<v-clicks at='0'>
 
 - Generic is source of truth for whole form
 - `data` has known structure
@@ -494,7 +494,8 @@ function LoginForm() {
 
 <!--
 - Declare shape of form in a single type
-- Putting it
+*click*
+- Put it in `useForm`
 - `handleSubmit` will receive correct types
 - Field names used in `register` calls will be checked
 - TAKEAWAY: Source of truth for type + source of truth for runtime (`useForm`) = dispersion of types through your whole app
@@ -506,22 +507,22 @@ layout: center
 ---
 
 ```tsx {|3-6|12-15|} {at:0}
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form'
 
 type Form = {
-	count: number;
+	count: number
 }
 
 function CountForm() {
-	const form = useForm<Form>();
+	const form = useForm<Form>()
 
 	return (
 		<form onSubmit={form.handleSubmit(console.log)}>
 			<input
-				type="number" required
-				{...form.register("count")}
+				type='number' required
+				{...form.register('count')}
 			/>
-			<button type="submit" />
+			<button type='submit' />
 		</form>
 	)
 }
@@ -531,7 +532,7 @@ function CountForm() {
 Take this example:
 - Single number field
 *click*
-- Input with `type="number"`
+- Input with `type='number'`
 *click*
 - According to TypeScript, this is fine
 - This code actually has a bug
@@ -544,24 +545,24 @@ layout: center
 ---
 
 ```tsx {12-17}
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form'
 
 type Form = {
-	count: number;
+	count: number
 }
 
 function LoginForm() {
-	const form = useForm<Form>();
+	const form = useForm<Form>()
 
 	return (
 		<form onSubmit={form.handleSubmit(console.log)}>
 			<input
-				type="number" required
-				{...form.register("count", {
+				type='number' required
+				{...form.register('count', {
 					valueAsNumber: true
 				})}
 			/>
-			<button type="submit" />
+			<button type='submit' />
 		</form>
 	)
 }
@@ -578,9 +579,9 @@ function LoginForm() {
 layout: center
 ---
 
-<p class="text-6xl text-center">Zod</p>
+<p class='text-6xl text-center'>Zod</p>
 
-<img src="/assets/zod-logo.svg" class="h-64" />
+<img src='/assets/zod-logo.svg' class='h-64' />
 
 <!--
 - Excellent library for validating data
@@ -591,13 +592,13 @@ layout: center
 layout: center
 ---
 
-<div class="flex flex-row items-center gap-12">
+<div class='flex flex-row items-center gap-12'>
 
-<img src="/assets/zod-logo.svg" class="h-64" />
+<img src='/assets/zod-logo.svg' class='h-64' />
 
-<p class="text-6xl">❤</p>️
+<p class='text-6xl'>❤</p>️
 
-<img src="/assets/rhf-logo.svg" class="h-56" />
+<img src='/assets/rhf-logo.svg' class='h-56' />
 
 </div>
 
@@ -607,12 +608,29 @@ layout: center
 
 ---
 layout: center
+clicks: 2
 ---
 
+<div class='flex flex-col items-center -translate-y-5'>
+
+<div class='flex flex-row items-center gap-2 mb-12'>
+
+<img src='/assets/zod-logo.svg' class='h-24' />
+
+<p class='text-xl'>❤</p>️
+
+<img src='/assets/rhf-logo.svg' class='h-20' />
+
+</div>
+
+<div class='flex flex-row items-center gap-16'>
+
+<div class='scale-120'>
+
 ```tsx {1,5-9|1-2,5-9,12|all}
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResovler } from "@hookform/resolvers"
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResovler } from '@hookform/resolvers'
 
 const schema = z.object({
 	email: z.string().email(),
@@ -623,8 +641,22 @@ const schema = z.object({
 
 const form = useForm<z.infer<typeof schema>>({
 	resolver: zodResolver(schema)
-});
+})
 ```
+
+</div>
+
+<v-clicks at='-1'>
+
+- Zod schema defines shape of form
+- Form type is _inferred_ from schema
+- `resolver` tells RHF to validate <br/> using schema
+
+</v-clicks>
+
+</div>
+
+</div>
 
 <!--
 - First, we declare schema
@@ -641,9 +673,9 @@ layout: center
 ---
 
 ```tsx
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResovler } from "@hookform/resolvers"
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResovler } from '@hookform/resolvers'
 
 const schema = z.object({
 	email: z.string().email(),
@@ -653,13 +685,13 @@ const schema = z.object({
 function LoginForm() {
 	const form = useForm<z.infer<typeof schema>>({
 		resolver: zodResolver(schema)
-	});
+	})
 
 	return (
 		<form onSubmit={form.handleSubmit(console.log)}>
-			<input type="email" {...form.register("email")} />
-			<input type="password" {...form.register("password")} />
-			<button type="submit" />
+			<input type='email' {...form.register('email')} />
+			<input type='password' {...form.register('password')} />
+			<button type='submit' />
 		</form>
 	)
 }
@@ -675,9 +707,9 @@ layout: center
 ---
 
 ```tsx {|10-12}
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResovler } from "@hookform/resolvers"
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResovler } from '@hookform/resolvers'
 
 const schema = z.object({
 	count: z.coerce().number()
@@ -686,12 +718,12 @@ const schema = z.object({
 function CountForm() {
 	const form = useForm<z.infer<typeof schema>>({
 		resolver: zodResolver(schema)
-	});
+	})
 
 	return (
 		<form onSubmit={form.handleSubmit(console.log)}>
-			<input type="number" {...form.register("count")} />
-			<button type="submit" />
+			<input type='number' {...form.register('count')} />
+			<button type='submit' />
 		</form>
 	)
 }
@@ -712,12 +744,34 @@ function CountForm() {
 layout: center
 ---
 
-<div class="transform scale-120">
+<div class='flex flex-row items-center gap-4'>
+
+```tsx {10}
+import { z } from 'zod'
+import { useZodForm } from './useZodForm'
+
+const schema = z.object({
+	email: z.string().email(),
+	password: z.string().min(8)
+})
+
+function LoginForm() {
+	const form = useZodForm({ schema })
+
+	return (
+		<form onSubmit={form.handleSubmit(console.log)}>
+			<input type='email' {..form..register('email')} />
+			<input type='password' {...form.register('password')} />
+			<button type='submit' />
+		</form>
+	)
+}
+```
 
 ```ts
-import { useForm, UseFormProps } from "react-hook-form";
-import { zodResovler } from "@hookform/resolvers"
-import { ZodSchema, z } from "zod""
+import { useForm, UseFormProps } from 'react-hook-form'
+import { zodResovler } from '@hookform/resolvers'
+import { ZodSchema, z } from 'zod'
 
 type UseZodFormProps<T extends ZodSchema> =
   Omit<UseFormProps<z.infer<T>>, 'resolver'>
@@ -730,7 +784,7 @@ export function useZodForm<T extends ZodSchema>({
 	return useForm({
 		...props,
 		resolver: zodResolver(schema)
-	});
+	})
 }
 ```
 
@@ -742,16 +796,17 @@ export function useZodForm<T extends ZodSchema>({
 - These types may look scary, but don't worry!
   - `UseZodFormProps` is just the type that `useForm` expects, but removes `resolver` since we're providing it ourselves, and adds `schema`
   - `T` represents the type of the schema we provide - without it, types wouldn't be passed through to things like `handleSubmit`
-- Our form now looks like...
 -->
 
 ---
 layout: center
 ---
 
+<div class='flex flex-row items-center gap-4'>
+
 ```tsx
-import { z } from "zod"
-import { useZodForm } from "./useZodForm"
+import { z } from 'zod'
+import { useZodForm } from './useZodForm'
 
 const schema = z.object({
 	email: z.string().email(),
@@ -759,25 +814,50 @@ const schema = z.object({
 })
 
 function LoginForm() {
-	const form = useZodForm({ schema });
+	const form = useZodForm({ schema })'
 
 	return (
 		<form onSubmit={form.handleSubmit(console.log)}>
-			<input type="email" {..form..register("email")} />
-			<input type="password" {...form.register("password")} />
-			<button type="submit" />
+			<input type='email' {..form..register('email')} />
+			<input type='password' {...form.register('password')} />
+			<button type='submit' />
 		</form>
 	)
 }
 ```
 
+<div>
+
+## Zod + RHF
+
+<br/>
+
+- All form logic hidden behind `useZodForm`
+- No manual types
+- `handleSubmit` always receives correct data
+
+<v-click>
+
+<div class='text-red-500 absolute translate-4'>
+
+## What if things go wrong?!
+
+</div>
+
+</v-click>
+
+</div>
+
+</div>
+
 <!--
-- Looks like this!
+- So here's where we are so far
   - All form logic hidden behind hook
   - No more manual types
   - What I think a good TS experience should be
     - Types should be declared once + flow through
 - ...
+*click*
 - What if validation doesn't succeed?
 - RHF can help here too
 -->
@@ -786,19 +866,27 @@ function LoginForm() {
 layout: center
 ---
 
-<div class="transform scale-120">
+<div class='flex flex-col items-center'>
 
-```tsx {4}
+# Displaying Errors
+
+```tsx {4,10,14|}
 function LoginForm() {
-	const form = useZodForm({ schema });
+	const form = useZodForm({ schema })'
 
-	const { errors } = form.formState;
+	const { errors } = form.formState'
 
 	return (
 		<form onSubmit={form.handleSubmit(console.log)}>
-			<input type="email" {..form..register("email")} />
-			<input type="password" {...form.register("password")} />
-			<button type="submit" />
+			<div>
+				<input type='email' {..form.register('email')} />
+				{errors.email && <p>{errors.email.message}</p>}
+			</div>
+			<div>
+				<input type='password' {...form.register('password')} />
+				{errors.password && <p>{errors.email.password}</p>}
+			</div>
+			<button type='submit' />
 		</form>
 	)
 }
@@ -807,37 +895,7 @@ function LoginForm() {
 </div>
 
 <!--
-- Gives us handy `errors` object which we can then...
--->
-
----
-layout: center
----
-
-```tsx {4,13,20|}
-function LoginForm() {
-	const form = useZodForm({ schema });
-
-	const { errors } = form.formState;
-
-	return (
-		<form onSubmit={form.handleSubmit(console.log)}>
-			<div>
-				<input type="email" {..form.register("email")} />
-				{errors.email && <p>{errors.email.message}</p>}
-			</div>
-			<div>
-				<input type="password" {...form.register("password")} />
-				{errors.password && <p>{errors.email.password}</p>}
-			</div>
-			<button type="submit" />
-		</form>
-	)
-}
-```
-
-<!--
-- We can then _use_ to display errors for each field
+- Gives us handy `errors` object we can then _use_ to display errors for each field
 - btw `errors` is typesafe - TS will yell at us if we try get errors for a non-existent field
 *click*
 - This gets repetitive though
@@ -848,41 +906,41 @@ function LoginForm() {
 layout: center
 ---
 
-<div class="flex flex-row items-center gap-8">
+<div class='flex flex-row items-center gap-8'>
 
-```tsx
-import { Input } from "./Input";
+```tsx {all|none} {at:0}
+import { Input } from './Input'
 
 function LoginForm() {
-	const form = useZodForm({ schema });
+	const form = useZodForm({ schema })'
 
 	return (
 		<form onSubmit={form.handleSubmit(console.log)}>
-			<Input type="email" {...form.register("email")} />
-			<Input type="password" {...form.register("password")} />
-			<button type="submit" />
+			<Input type='email' {...form.register('email')} />
+			<Input type='password' {...form.register('password')} />
+			<button type='submit' />
 		</form>
 	)
 }
 ```
 
-```tsx
-import { ComponentProps, forwardRef } from 'react';
-import { useFormContext } from 'react-hook-form';
+```tsx {|8,13} {at:0}
+import { ComponentProps, forwardRef } from 'react'
+import { useFormContext } from 'react-hook-form'
 
 export const Input = forwardRef<
 	HTMLInputElement,
 	ComponentProps<'input'>
 >((props, ref) => {
-  const form = ??;
+  const form = ??'
 
   return (
     <div>
       <input {...props} ref={ref} />
       {??.error && <p>{??.error.message}</p>}
     </div>
-  );
-});
+  )'
+})'
 ```
 
 </div>
@@ -890,6 +948,7 @@ export const Input = forwardRef<
 <!--
 - Something like this
 - `Input` renders both the input _and_ the error if there is one
+*click*
 - But where do we get `form` from?
   - Could pass `form` to every `Input`, but that would get annoying
   - If only there was a way to make a value available to all of a component's children...
@@ -903,12 +962,15 @@ clicks: 4
 
 <div class="flex flex-row items-center gap-8">
 
-```tsx {|1,8,20|,||8-9,13-14} {at:0}
-import { FormProvider } from "react-hook-form";
-import { Input } from "./Input";
+<div class="flex flex-col items-center gap-4">
+
+# Context to the Rescue!
+```tsx {|1,8,14|,||8-9,13-14} {at:0}
+import { FormProvider } from "react-hook-form"
+import { Input } from "./Input"
 
 function LoginForm() {
-	const form = useZodForm({ schema });
+	const form = useZodForm({ schema })
 
 	return (
 		<FormProvider {...form}>
@@ -922,28 +984,35 @@ function LoginForm() {
 }
 ```
 
-```tsx {|2,8|10-14,18||,} {at:0}
-import { ComponentProps, forwardRef } from 'react';
-import { useFormContext } from 'react-hook-form';
+</div>
+
+```tsx {|2,13|14-18,23|all|none} {at:0}
+import { ComponentProps, forwardRef } from 'react'
+import { useFormContext } from 'react-hook-form'
+
+export interface InputProps
+    extends ComponentProps<'input'> {
+    name: string
+}
 
 export const Input = forwardRef<
 	HTMLInputElement,
-	ComponentProps<'input'>
+	InputProps
 >((props, ref) => {
-  const form = useFormContext();
+  const form = useFormContext()
 
   const field = form.getFieldState(
   	props.name,
    	form.formState
-  );
+  )
 
   return (
     <div>
       <input {...props} ref={ref} />
       {field.error && <p>{field.error.message}</p>}
     </div>
-  );
-});
+  )
+})
 ```
 
 </div>
@@ -953,8 +1022,11 @@ export const Input = forwardRef<
 *click*
 - RHF gives us this `FormProvider` we can consume with `useFormContext`
 *click*
-- Can then access field state with `getFieldState`
+- Can then get the field's state and render the error!
+
 *click*
+- Notice that we override the `name` field of the component's props, since `name` is now required for use in `getFieldState`.
+
 - While we're here, lets do something about...
 *click*
 - These, since every form is going to need them.
@@ -965,34 +1037,36 @@ layout: center
 clicks: 2
 ---
 
-<div class="flex flex-row items-center gap-8">
+<div class='flex flex-row items-center gap-8'>
 
-```tsx {1,7,11|all|none} {at:0}
-import { Form } from "./Form";
+```tsx {1,7,11|none} {at:0}
+import { Form } from './Form'
 
 function LoginForm() {
-	const form = useZodForm({ schema });
+	const form = useZodForm({ schema })
 
 	return (
 		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
-			<Input type="email" {...form.register("email")} />
-			<Input type="password" {...form.register("password")} />
-			<button type="submit" />
+			<Input type='email' {...form.register('email')} />
+			<Input type='password' {...form.register('password')} />
+			<button type='submit' />
 		</Form>
 	)
 }
 ```
 
-```tsx {all|all|15-18} {at:0}
-import { ComponentProps } from 'react';
+```tsx {all|17-19} {at:0}
+import { ComponentProps } from 'react'
 import {
   FieldValues,
   FormProvider,
   UseFormReturn,
-} from 'react-hook-form';
+} from 'react-hook-form'
 
-type FormProps<T extends FieldValues> =
-  ComponentProps<'form'> & { form: UseFormReturn<T>; }
+export interface FormProps<T extends FieldValues>
+	extends ComponentProps<'form'> {
+	form: UseFormReturn<T>
+}
 
 export function Form<T extends FieldValues>({
   form, ...props
@@ -1002,7 +1076,7 @@ export function Form<T extends FieldValues>({
 	    <form {...props} />
 	  </FormProvider>
   )
-};
+}
 ```
 
 </div>
@@ -1011,7 +1085,6 @@ export function Form<T extends FieldValues>({
 - Let's put them in a dedicated component
 - We now provide our form via the `form` prop
 - It's propagated to all child fields
-*click*
 - Another thing I like to do is head down...
 *click*
 - here, and wrap all the children in a...
@@ -1021,34 +1094,36 @@ export function Form<T extends FieldValues>({
 layout: center
 ---
 
-<div class="flex flex-row items-center gap-8">
+<div class='flex flex-row items-center gap-8'>
 
 ```tsx {,} {at:0}
-import { Form } from "./Form";
+import { Form } from './Form'
 
 function LoginForm() {
-	const form = useZodForm({ schema });
+	const form = useZodForm({ schema })
 
 	return (
 		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
-			<Input type="email" {...form.register("email")} />
-			<Input type="password" {...form.register("password")} />
-			<button type="submit" />
+			<Input type='email' {...form.register('email')} />
+			<Input type='password' {...form.register('password')} />
+			<button type='submit' />
 		</Form>
 	)
 }
 ```
 
-```tsx {15-21} {at:0}
-import { ComponentProps } from 'react';
+```tsx {17-23} {at:0}
+import { ComponentProps } from 'react'
 import {
   FieldValues,
   FormProvider,
   UseFormReturn,
-} from 'react-hook-form';
+} from 'react-hook-form'
 
-type FormProps<T extends FieldValues> =
-  ComponentProps<'form'> & { form: UseFormReturn<T>; }
+export interface FormProps<T extends FieldValues>
+	extends ComponentProps<'form'> {
+	form: UseFormReturn<T>
+}
 
 export function Form<T extends FieldValues>({
   form, children, ...props
@@ -1062,7 +1137,7 @@ export function Form<T extends FieldValues>({
       </form>
     </FormProvider>
   )
-};
+}
 ```
 
 </div>
@@ -1074,18 +1149,22 @@ export function Form<T extends FieldValues>({
   - `disabled` css selector will be applied
 - While form is submitting, this disabled state will propagate
  - If `handleSubmit` contains an async function, it will wait to resolve
+- All in all...
+*click*
 -->
 
 ---
 layout: center
 ---
 
-<div class="transform scale-110">
+<div class='flex flex-row items-center gap-8'>
+
+<div>
 
 ```tsx
-import { useZodForm } from "./useZodForm";
-import { Input } from "./Input";
-import { Form } from "./Form";
+import { useZodForm } from './useZodForm'
+import { Input } from './Input'
+import { Form } from './Form'
 
 const schema = z.object({
 	email: z.string().email(),
@@ -1093,16 +1172,274 @@ const schema = z.object({
 })
 
 function LoginForm() {
-	const form = useZodForm({ schema });
+	const form = useZodForm({ schema })
 
 	return (
 		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
-			<Input type="email" {...form.register("email")} />
-			<Input type="password" {...form.register("password")} />
-			<button type="submit" />
+			<Input type='email' {...form.register('email')} />
+			<Input type='password' {...form.register('password')} />
+			<button type='submit' />
 		</Form>
 	)
 }
 ```
- 
+
+</div>
+
+<img src='/assets/login-no-labels.png' class='h-58 rounded-md' />
+
+</div>
+
+<!--
+- Our form code is looking pretty sleek!
+- This form is missing something though...
+-->
+
+---
+layout: center
+---
+
+<div class='flex flex-col items-center'>
+
+# Labels!
+
+<div class='flex flex-row items-center gap-8'>
+
+<div>
+
+```tsx {all|7,11}
+function LoginForm() {
+	const form = useZodForm({ schema })
+
+	return (
+		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
+			<Input
+			  type='email' label='Email'
+			  {...form.register('email')}
+			/>
+			<Input
+			  type='password' label='Password'
+			  {...form.register('password')}
+			/>
+			<button type='submit' />
+		</Form>
+	)
+}
+```
+
+</div>
+
+<img src='/assets/login-with-labels.png' class='h-58 rounded-md' />
+
+</div>
+
+</div>
+
+<!--
+# Labels!
+
+- We can just pass them as a prop to our inputs...
+*click*
+-->
+
+---
+layout: center
+---
+
+<div class='flex flex-row items-center gap-8'>
+
+<div>
+
+```tsx {7,11}
+function LoginForm() {
+	const form = useZodForm({ schema })
+
+	return (
+		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
+			<Input
+			  type='email' label='Email'
+			  {...form.register('email')}
+			/>
+			<Input
+			  type='password' label='Password'
+			  {...form.register('password')}
+			/>
+			<button type='submit' />
+		</Form>
+	)
+}
+```
+
+</div>
+
+```tsx {4,20-23}
+export interface InputProps
+	extends ComponentProps<'input'> {
+	name: string
+	label: string
+}
+
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	const form = useFormContext()
+
+	const field = form.getFieldState(
+		props.name,
+		form.formState
+	)
+
+	return (
+		<div>
+			<label htmlFor={props.name}>
+				{props.label}
+			</label>
+			<input {...props} id={props.name} ref={ref} />
+			{field.error && <p>{field.error.message}</p>}
+		</div>
+	)
+})
+```
+
+</div>
+
+<!--
+- And then render the label above the input
+- Best practice to include the label so we'll make it required
+- Need to set `htmlFor` and `id` to link the label to the input
+- But...
+*click*
+-->
+
+---
+layout: center
+---
+
+<div class='flex flex-row items-center gap-8'>
+
+<div>
+
+## What If `name` Isn't Unique?
+
+<br/>
+
+- Could have multiple forms on one page
+- `id` is supposed to be unique on the whole page
+
+</div>
+
+```tsx
+export interface InputProps
+	extends ComponentProps<'input'> {
+	name: string
+	label: string
+}
+
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	const form = useFormContext()
+
+	const field = form.getFieldState(
+		props.name,
+		form.formState
+	)
+
+	return (
+		<div>
+			<label htmlFor={props.name}>
+				{props.label}
+			</label>
+			<input {...props} id={props.name} ref={ref} />
+			{field.error && <p>{field.error.message}</p>}
+		</div>
+	)
+})
+```
+
+</div>
+
+<!--
+- What if `name` _isn't_ unique?
+- This system doesn't stop us having multiple forms on one page
+- `id` is supposed to be unique on the whole page
+- React gives us a solution...
+*click*
+-->
+
+---
+layout: center
+---
+
+<div class='flex flex-col items-center gap-8'>
+
+## `useId`
+
+```tsx
+import { useId } from "react"
+
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	...
+
+	const id = useId()
+
+	return (
+		<div>
+			<label htmlFor={id}>
+				{props.label}
+			</label>
+			<input {...props} id={id} ref={ref} />
+			{field.error && <p>{field.error.message}</p>}
+		</div>
+	)
+})
+```
+
+</div>
+
+<!--
+- `useId`
+- One of those React features that you may not have heard of
+- Generates a unique ID that is stable across rerenders
+  - Doesn't change between when component mounts and unmounts
+- Verifiably unique, as opposed to `name`
+-->
+
+---
+layout: center
+---
+
+<div class='flex flex-row items-center gap-8'>
+
+<div>
+
+```tsx {all|7,11}
+function LoginForm() {
+	const form = useZodForm({ schema })
+
+	return (
+		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
+			<Input
+			  type='email' label='Email'
+			  {...form.register('email')}
+			/>
+			<Input
+			  type='password' label='Password'
+			  {...form.register('password')}
+			/>
+			<button type='submit' />
+		</Form>
+	)
+}
+```
+
+</div>
+
+<img src='/assets/login-with-labels.png' class='h-58 rounded-md' />
+
 </div>
