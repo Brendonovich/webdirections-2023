@@ -10,38 +10,8 @@ title: Building Type-Safe Forms in React
 ## Brendan Allan
 
 <!--
-Hey everyone! It's so great to be here.
-Thank you all for coming to listen to me talk about forms of all things
--->
-
----
-layout: image-right
-image: /github-pinned.png
----
-
-<div class='h-full flex flex-col justify-center items-center'>
-
-# Who am I?
-
-### Brendan Allan
-
-<br />
-
-- West Australian
-- Rust and TypeScript enjoyer
-- Open source maintainer
-- Type safety enthusiast
-- Software Engineer at Spacedrive
-
-</div>
-
-<!--
-- My name is Brendan Allan
-- I'm from the other side of the country
-- Work in Rust and TypeScript
-- OSS maintainer
-- Type safety enthusiast - just ask work colleagues
-- Software Engineer at Spacedrive - the company that is the reason I dropped out of university last year
+- Glad to be here
+- As you know, I'm here to talk to you about forms...
 -->
 
 ---
@@ -56,7 +26,7 @@ layout: center
 </div>
 
 <!--
-- At Spacedrive we are building an open-source file explorer designed to create and synchronise an index of all your files both locally and across cloud storage
+- Building an open-source file explorer that synchronises an index of files
 - Using Rust for backend and web tech for frontend - TypeScript, React, etc.
 - We have a lot of forms...
 -->
@@ -118,7 +88,7 @@ layout: center
 <div class='flex flex-row space-x-8 items-center'>
 
 ```tsx {all|2-3|10-19|20|6-9|all}
-function LoginForm() {
+function SignupForm() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -175,10 +145,13 @@ function LoginForm() {
 layout: center
 ---
 
+<v-click at="1">
 - TODO: NextJS
+- TODO: Remix
+</v-click>
 
 ```tsx
-function LoginForm() {
+function SignupForm() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -203,8 +176,6 @@ function LoginForm() {
 }
 ```
 
-- TODO: Remix
-
 <!--
 - Keep in mind, we're just talking about client-controlled forms
 
@@ -225,7 +196,7 @@ layout: center
 <div class='flex flex-row space-x-4 items-center'>
 
 ```tsx
-function LoginForm() {
+function SignupForm() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -273,6 +244,7 @@ function LoginForm() {
 
 - Also, not typesafe
 - Form data being spread over each `useState` rather than centralised in one place
+- Names aren't typesafe, but in this case doesn't really matter
 - What can we do about this? First thing we'll use is...
 -->
 
@@ -300,7 +272,7 @@ clicks: 3
 <div>
 
 ```tsx {2-3|6-9|12-13,17-18|all} {at:0}
-function LoginForm() {
+function SignupForm() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -332,7 +304,7 @@ function LoginForm() {
 ```tsx {1,4|7-9|12,16|all} {at:0}
 import { useForm } from 'react-hook-form'
 
-function LoginForm() {
+function SignupForm() {
 	const form = useForm()
 
 	return (
@@ -385,7 +357,7 @@ layout: center
 ```tsx
 import { useForm } from 'react-hook-form'
 
-function LoginForm() {
+function SignupForm() {
 	const form = useForm()
 
 	return (
@@ -423,10 +395,17 @@ function LoginForm() {
 
 <!--
 What do we think of this?
+
+*click*
+
 - Scales much better
   - Don't need to add more state storage
   - All data gets passed through single `handleSubmit`
+
+*click*
+
 - Still not typesafe though
+  - `name` could be wrong
 -->
 
 ---
@@ -446,7 +425,7 @@ type Form = {
 	password: string
 }
 
-function LoginForm() {
+function SignupForm() {
 	const form = useForm<Form>()'
 
 	return (
@@ -494,8 +473,14 @@ function LoginForm() {
 
 <!--
 - Declare shape of form in a single type
+
 *click*
+
 - Put it in `useForm`
+  - `Form` type becomes source of truth for whole form
+
+*click*
+
 - `handleSubmit` will receive correct types
 - Field names used in `register` calls will be checked
 - TAKEAWAY: Source of truth for type + source of truth for runtime (`useForm`) = dispersion of types through your whole app
@@ -531,9 +516,13 @@ function CountForm() {
 <!--
 Take this example:
 - Single number field
+
 *click*
+
 - Input with `type='number'`
+
 *click*
+
 - According to TypeScript, this is fine
 - This code actually has a bug
 	- RHF uses input's `value` property by default
@@ -551,7 +540,7 @@ type Form = {
 	count: number
 }
 
-function LoginForm() {
+function SignupForm() {
 	const form = useForm<Form>()
 
 	return (
@@ -682,7 +671,7 @@ const schema = z.object({
 	password: z.string().min(8)
 })
 
-function LoginForm() {
+function SignupForm() {
 	const form = useForm<z.infer<typeof schema>>({
 		resolver: zodResolver(schema)
 	})
@@ -705,6 +694,8 @@ Here's what that looks like
 ---
 layout: center
 ---
+
+<div class="flex flex-row items-center gap-8">
 
 ```tsx {|10-12}
 import { z } from 'zod'
@@ -729,6 +720,18 @@ function CountForm() {
 }
 ```
 
+<div>
+
+# Number Inputs 😳
+
+- `z.number` would fail validation
+- `z.coerce` converts string to number
+- `<NumberInput />` would be better
+
+</div>
+
+</div>
+
 <!--
 - In cases with number inputs, can use `z.coerce()` to convert string to number for us
   - Less typesafe than dedicated `<NumberInput />`, but...
@@ -740,9 +743,14 @@ function CountForm() {
 - Wouldn't it be great to have a **custom hook** that can wrap `schema` in `zodResolver`, and also insert the generic for us?
 - Well...
 -->
+
 ---
 layout: center
 ---
+
+<div class="flex flex-col items-center">
+
+# `useZodForm`
 
 <div class='flex flex-row items-center gap-4'>
 
@@ -755,7 +763,7 @@ const schema = z.object({
 	password: z.string().min(8)
 })
 
-function LoginForm() {
+function SignupForm() {
 	const form = useZodForm({ schema })
 
 	return (
@@ -790,6 +798,8 @@ export function useZodForm<T extends ZodSchema>({
 
 </div>
 
+</div>
+
 <!--
 - How about this?
   - Calls `useForm` and automatically provides `schema` as `resolver`
@@ -813,8 +823,8 @@ const schema = z.object({
 	password: z.string().min(8)
 })
 
-function LoginForm() {
-	const form = useZodForm({ schema })'
+function SignupForm() {
+	const form = useZodForm({ schema })
 
 	return (
 		<form onSubmit={form.handleSubmit(console.log)}>
@@ -871,7 +881,7 @@ layout: center
 # Displaying Errors
 
 ```tsx {4,10,14|}
-function LoginForm() {
+function SignupForm() {
 	const form = useZodForm({ schema })'
 
 	const { errors } = form.formState'
@@ -897,7 +907,9 @@ function LoginForm() {
 <!--
 - Gives us handy `errors` object we can then _use_ to display errors for each field
 - btw `errors` is typesafe - TS will yell at us if we try get errors for a non-existent field
+
 *click*
+
 - This gets repetitive though
 - Better solution is to group the input and error into a separate component
 -->
@@ -911,8 +923,8 @@ layout: center
 ```tsx {all|none} {at:0}
 import { Input } from './Input'
 
-function LoginForm() {
-	const form = useZodForm({ schema })'
+function SignupForm() {
+	const form = useZodForm({ schema })
 
 	return (
 		<form onSubmit={form.handleSubmit(console.log)}>
@@ -932,7 +944,7 @@ export const Input = forwardRef<
 	HTMLInputElement,
 	ComponentProps<'input'>
 >((props, ref) => {
-  const form = ??'
+  const form = ??
 
   return (
     <div>
@@ -948,7 +960,9 @@ export const Input = forwardRef<
 <!--
 - Something like this
 - `Input` renders both the input _and_ the error if there is one
+
 *click*
+
 - But where do we get `form` from?
   - Could pass `form` to every `Input`, but that would get annoying
   - If only there was a way to make a value available to all of a component's children...
@@ -969,7 +983,7 @@ clicks: 4
 import { FormProvider } from "react-hook-form"
 import { Input } from "./Input"
 
-function LoginForm() {
+function SignupForm() {
 	const form = useZodForm({ schema })
 
 	return (
@@ -990,10 +1004,9 @@ function LoginForm() {
 import { ComponentProps, forwardRef } from 'react'
 import { useFormContext } from 'react-hook-form'
 
-export interface InputProps
-    extends ComponentProps<'input'> {
-    name: string
-}
+export type InputProps =
+	ComponentProps<'input'> &
+    { name: string }
 
 export const Input = forwardRef<
 	HTMLInputElement,
@@ -1019,16 +1032,23 @@ export const Input = forwardRef<
 
 <!--
 - Context!
+
 *click*
+
 - RHF gives us this `FormProvider` we can consume with `useFormContext`
+
 *click*
+
 - Can then get the field's state and render the error!
 
 *click*
+
 - Notice that we override the `name` field of the component's props, since `name` is now required for use in `getFieldState`.
 
 - While we're here, lets do something about...
+
 *click*
+
 - These, since every form is going to need them.
 -->
 
@@ -1037,12 +1057,16 @@ layout: center
 clicks: 2
 ---
 
+<div class="flex flex-col items-center">
+
+# `<Form>`
+
 <div class='flex flex-row items-center gap-8'>
 
 ```tsx {1,7,11|none} {at:0}
 import { Form } from './Form'
 
-function LoginForm() {
+function SignupForm() {
 	const form = useZodForm({ schema })
 
 	return (
@@ -1055,7 +1079,7 @@ function LoginForm() {
 }
 ```
 
-```tsx {all|17-19} {at:0}
+```tsx {all|15-19} {at:0}
 import { ComponentProps } from 'react'
 import {
   FieldValues,
@@ -1063,10 +1087,9 @@ import {
   UseFormReturn,
 } from 'react-hook-form'
 
-export interface FormProps<T extends FieldValues>
-	extends ComponentProps<'form'> {
-	form: UseFormReturn<T>
-}
+export type FormProps<T extends FieldValues> =
+	ComponentProps<'form'> &
+	{ form: UseFormReturn<T> }
 
 export function Form<T extends FieldValues>({
   form, ...props
@@ -1081,12 +1104,16 @@ export function Form<T extends FieldValues>({
 
 </div>
 
+</div>
+
 <!--
-- Let's put them in a dedicated component
+- They get own `Form` component
 - We now provide our form via the `form` prop
 - It's propagated to all child fields
 - Another thing I like to do is head down...
+
 *click*
+
 - here, and wrap all the children in a...
 -->
 
@@ -1099,7 +1126,7 @@ layout: center
 ```tsx {,} {at:0}
 import { Form } from './Form'
 
-function LoginForm() {
+function SignupForm() {
 	const form = useZodForm({ schema })
 
 	return (
@@ -1112,7 +1139,7 @@ function LoginForm() {
 }
 ```
 
-```tsx {17-23} {at:0}
+```tsx {15-23} {at:0}
 import { ComponentProps } from 'react'
 import {
   FieldValues,
@@ -1120,10 +1147,9 @@ import {
   UseFormReturn,
 } from 'react-hook-form'
 
-export interface FormProps<T extends FieldValues>
-	extends ComponentProps<'form'> {
-	form: UseFormReturn<T>
-}
+export type FormProps<T extends FieldValues> =
+	ComponentProps<'form'> &
+	{ form: UseFormReturn<T> }
 
 export function Form<T extends FieldValues>({
   form, children, ...props
@@ -1171,7 +1197,7 @@ const schema = z.object({
 	password: z.string().min(8)
 })
 
-function LoginForm() {
+function SignupForm() {
 	const form = useZodForm({ schema })
 
 	return (
@@ -1208,7 +1234,7 @@ layout: center
 <div>
 
 ```tsx {all|7,11}
-function LoginForm() {
+function SignupForm() {
 	const form = useZodForm({ schema })
 
 	return (
@@ -1238,8 +1264,9 @@ function LoginForm() {
 <!--
 # Labels!
 
-- We can just pass them as a prop to our inputs...
 *click*
+
+- We can just pass them as a prop to our inputs...
 -->
 
 ---
@@ -1251,7 +1278,7 @@ layout: center
 <div>
 
 ```tsx {7,11}
-function LoginForm() {
+function SignupForm() {
 	const form = useZodForm({ schema })
 
 	return (
@@ -1272,12 +1299,10 @@ function LoginForm() {
 
 </div>
 
-```tsx {4,20-23}
-export interface InputProps
-	extends ComponentProps<'input'> {
-	name: string
-	label: string
-}
+```tsx {all|1-3|18-21}
+export type InputProps =
+	ComponentProps<'input'> &
+	{ name: string, label: string }
 
 export const Input = forwardRef<
 	HTMLInputElement,
@@ -1306,8 +1331,15 @@ export const Input = forwardRef<
 
 <!--
 - And then render the label above the input
-- Best practice to include the label so we'll make it required
-- Need to set `htmlFor` and `id` to link the label to the input
+
+*click*
+
+- Good practice to include the label so we'll make it required
+
+*cick*
+
+- Need to set `htmlFor` and `id` to the same value
+  - `name` might work fine
 - But...
 *click*
 -->
@@ -1320,7 +1352,7 @@ layout: center
 
 <div>
 
-## What If `name` Isn't Unique?
+## What if `name` Isn't Unique?
 
 <br/>
 
@@ -1330,11 +1362,9 @@ layout: center
 </div>
 
 ```tsx
-export interface InputProps
-	extends ComponentProps<'input'> {
-	name: string
-	label: string
-}
+export type InputProps =
+	ComponentProps<'input'> &
+	{ name: string, label: string }
 
 export const Input = forwardRef<
 	HTMLInputElement,
@@ -1362,10 +1392,11 @@ export const Input = forwardRef<
 </div>
 
 <!--
-- What if `name` _isn't_ unique?
+- What if `name` _Isn't_ unique?
 - This system doesn't stop us having multiple forms on one page
 - `id` is supposed to be unique on the whole page
 - React gives us a solution...
+
 *click*
 -->
 
@@ -1384,9 +1415,9 @@ export const Input = forwardRef<
 	HTMLInputElement,
 	InputProps
 >((props, ref) => {
-	...
-
 	const id = useId()
+
+	...
 
 	return (
 		<div>
@@ -1407,7 +1438,7 @@ export const Input = forwardRef<
 - One of those React features that you may not have heard of
 - Generates a unique ID that is stable across rerenders
   - Doesn't change between when component mounts and unmounts
-- Verifiably unique, as opposed to `name`
+- Unique, as opposed to `name`
 -->
 
 ---
@@ -1418,8 +1449,22 @@ layout: center
 
 <div>
 
-```tsx {all|7,11}
-function LoginForm() {
+<v-click>
+
+<span class="absolute top-2 left-70% -rotate-10">
+
+<div class="absolute text-5xl -left-5 -top-4">
+👀
+</div>
+
+# `<select>`
+
+</span>
+
+</v-click>
+
+```tsx
+function SignupForm() {
 	const form = useZodForm({ schema })
 
 	return (
@@ -1443,3 +1488,802 @@ function LoginForm() {
 <img src='/assets/login-with-labels.png' class='h-58 rounded-md' />
 
 </div>
+
+<!--
+- Ok, surely we're done working on forms now...
+*click*
+- Ah right... there's more to forms than just text inputs...
+-->
+
+---
+layout: center
+---
+
+```tsx
+export type SelectProps =
+	ComponentProps<'select'> &
+	{ name: string, label: string }
+
+export const Select = forwardRef<
+	HTMLSelectElement,
+	SelectProps
+>((props, ref) => {
+	const id = useId()
+	const form = useFormContext()
+
+	const field = form.getFieldState(
+		props.name,
+		form.formState
+	)
+
+	return (
+		<div>
+			<label htmlFor={id}>
+				{props.label}
+			</label>
+			<select {...props} id={id} ref={ref} />
+			{field.error && <p>{field.error.message}</p>}
+		</div>
+	)
+})
+```
+
+<!--
+- Well, we can use a similar approach to the text input to make a `Select` component
+-->
+
+---
+layout: center
+---
+
+```tsx {all|1-6|all}
+const schema = z.object({
+	favouriteFruit: z.union([
+		z.literal("apple"),
+		z.literal("orange")
+	])
+})
+
+function FruitForm() {
+	const form = useZodForm({ schema })
+
+	return (
+		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
+			<Select
+			 	label="Favourite Fruit"
+				{...form.register("favouriteFruit")}
+			>
+				<option value="apple">Apple</option>
+				<option value="orange">Orange</option>
+			</Select>
+			<button type='submit' />
+		</Form>
+	)
+}
+```
+
+<!--
+- Using it inside basic form that lets you pick between apples and oranges
+
+*click*
+
+- Type for select field is string union
+
+*click*
+
+- This is _fine_, options aren't typed though
+- Can derive options from schema
+-->
+
+---
+layout: center
+---
+
+```tsx
+const schema = z.object({
+	favouriteFruit: z.union([
+		z.literal("apple"),
+		z.literal("orange")
+	])
+})
+
+function FruitForm() {
+	const form = useZodForm({ schema })
+
+	return (
+		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
+			<Select
+			 	label="Favourite Fruit"
+				{...form.register("favouriteFruit")}
+			>
+				{schema.shape.favouriteFruit.options.map(({ value }) => (
+					<option key={value} value={value}>
+						{??}
+					</option>
+				))}
+			</Select>
+			<button type='submit' />
+		</Form>
+	)
+}
+```
+
+<!--
+- `map` over options from `favouriteFruit` union
+- Need more nicely formatted value to show user
+- In this case, _could_ capitalise first letter...
+-->
+
+---
+layout: center
+---
+
+```tsx
+const schema = z.object({
+	...
+})
+
+const FruitDisplayNames:
+	Record<z.infer<typeof schema>['fruit'], string> = {
+	apple: "Apple",
+	orange: "Orange"
+}
+
+function FruitForm() {
+	const form = useZodForm({ schema })
+
+	return (
+		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
+			<Select
+			 	label="Favourite Fruit"
+				{...form.register("favouriteFruit")}
+			>
+				{schema.shape.favouriteFruit.options.map(fruit => (
+					<option key={fruit.value} value={fruit.value}>
+						{FruitDisplayNames[fruit.value]}
+					</option>
+				))}
+			</Select>
+			<button type='submit' />
+		</Form>
+	)
+}
+```
+
+<!--
+- _or_ type-safe map with display name for each option
+- Maybe not ideal, but certainly possible 😅
+- That's enough messing around
+- Back to `Select` itself...
+-->
+
+---
+layout: center
+clicks: 2
+---
+
+<div class="flex flex-row gap-8">
+
+```tsx {all|1-2,5-7,22|all} {at:0}
+export type InputProps =
+	ComponentProps<'input'> &
+	{ name: string, label: string }
+
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	const id = useId()
+	const form = useFormContext()
+
+	const field = form.getFieldState(
+		props.name,
+		form.formState
+	)
+
+	return (
+		<div>
+			<label htmlFor={id}>
+				{props.label}
+			</label>
+			<input {...props} id={id} ref={ref} />
+			{field.error && <p>{field.error.message}</p>}
+		</div>
+	)
+})
+```
+
+```tsx {all|1-2,5-7,22|all} {at:0}
+export type SelectProps =
+	ComponentProps<'select'> &
+	{ name: string, label: string }
+
+export const Select = forwardRef<
+	HTMLSelectElement,
+	SelectProps
+>((props, ref) => {
+	const id = useId()
+	const form = useFormContext()
+
+	const field = form.getFieldState(
+		props.name,
+		form.formState
+	)
+
+	return (
+		<div>
+			<label htmlFor={id}>
+				{props.label}
+			</label>
+			<select {...props} id={id} ref={ref} />
+			{field.error && <p>{field.error.message}</p>}
+		</div>
+	)
+})
+```
+
+
+</div>
+
+<!--
+- If we put `Input` and `Select` side by side...
+
+*click*
+
+- These are the _only_ differences between the two!
+
+*click*
+
+- So let's move the label and error into their own component...
+-->
+
+---
+layout: center
+---
+
+<div class="flex flex-col items-center">
+
+# `<FormField>`
+
+<div class="flex flex-row gap-8 items-center">
+
+```tsx
+import { FormField } from "./FormField"
+
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	const id = useId()
+	const form = useFormContext()
+
+	const field = form.getFieldState(
+		props.name,
+		form.formState
+	)
+
+	return (
+		<FormField>
+			<input {...props} id={id} ref={ref} />
+		</FormField>
+	)
+})
+```
+
+<v-click>
+
+```tsx
+import { PropsWithChildren } from "react"
+
+export function FormField(props: PropsWithChildren) {
+	return (
+		<div>
+			<label htmlFor={??.id}>
+				{??.label}
+			</label>
+			{props.children}
+			{??.error && <p>{??.error.message}</p>}
+		</div>
+	)
+}
+```
+
+</v-click>
+
+</div>
+
+</div>
+
+<!--
+- Ah, much better already!
+
+*click*
+
+- `FormField` has a lot of missing data - we'll get back to that.
+- While we're here we can move form context-related stuff into `FormField` since that's shared too...
+-->
+
+---
+layout: center
+---
+
+<div class="flex flex-row gap-8 items-center">
+
+```tsx
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	const id = useId()
+
+	return (
+		<FormField>
+			<input {...props} id={id} ref={ref} />
+		</FormField>
+	)
+})
+```
+
+```tsx
+export function FormField(props: PropsWithChildren) {
+	const form = useFormContext()
+
+	const field = form.getFieldState(
+		??.name,
+		form.formState
+	)
+
+	return (
+		<div>
+			<label htmlFor={??.id}>
+				{??.label}
+			</label>
+			{props.children}
+			{??.error && <p>{??.error.message}</p>}
+		</div>
+	)
+}
+```
+
+</div>
+
+<!--
+- And we can take in everything else as props...
+-->
+
+---
+layout: center
+---
+
+<div class="flex flex-row gap-8 items-center">
+
+```tsx {all|5}
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	const id = useId()
+
+	return (
+		<FormField name={props.name} label={props.label} id={id}>
+			<input {...props} id={id} ref={ref} />
+		</FormField>
+	)
+})
+```
+
+```tsx
+export type FormFieldProps = PropsWithChildren & {
+	name: string;
+	label: string
+	id: string
+}
+
+export function FormField(props: FormFieldProps) {
+	const form = useFormContext()
+
+	const field = form.getFieldState(
+		props.name,
+		form.formState
+	)
+
+	return (
+		<div>
+			<label htmlFor={props.id}>
+				{props.label}
+			</label>
+			{props.children}
+			{field.error && <p>{field.error.message}</p>}
+		</div>
+	)
+}
+```
+
+</div>
+
+<!--
+- This is pretty good, but i'm not a fan of...
+*click*
+- `useId` being here.
+- Maybe you're fine with that, but I'm not
+  - Going to be called in multiple components
+  - Rather call custom hook multiple times than raw React hook
+- So, let's do that...
+-->
+
+---
+layout: center
+---
+
+<div class="flex flex-row gap-8 items-center">
+
+```tsx
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	const { formFieldProps, childProps } = useFormField();
+
+	return (
+		<FormField
+			{...formFieldProps}
+		 	name={props.name}
+			label={props.label}
+		>
+			<input {...childProps} {...props} ref={ref} />
+		</FormField>
+	)
+})
+```
+
+```tsx
+export function useFormField() {
+	const id = useId()
+
+	return {
+		formFieldProps: { id },
+		childProps: { id }
+	}
+}
+```
+
+</div>
+
+<!--
+- Which provides props for both the FormField _and_ the child!
+- But we can take this even futher...
+-->
+
+---
+layout: center
+---
+
+<div class="flex flex-row gap-8 items-center">
+
+```tsx
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	cons { formFieldProps, childProps } = useFormField(props);
+
+	return (
+		<FormField {...formFieldProps}>
+			<input {...childProps} ref={ref} />
+		</FormField>
+	)
+})
+```
+
+<div class="relative">
+
+<v-click>
+
+<img
+	class="w-20 h-20 absolute -top-12 right-4 -rotate-30"
+	src="/assets/zod-logo.svg"
+/>
+
+</v-click>
+
+```tsx
+export function useFormField(props) {
+	const id = useId()
+	const { name, label, ...childProps } = props;
+
+	return {
+		formFieldProps: { id, name, label },
+		childProps: { id, name, ...childProps }
+	}
+}
+```
+
+</div>
+
+</div>
+
+<!--
+- And make our custom hook provide _all_ the props for the `FormField` and child
+- Essentially just splits the props into two to make spreading easier
+  - May not be entirely necessary
+  - I sleep easier when only passing props that are actually needed
+
+*click*
+
+- Ah right... types
+-->
+
+---
+layout: center
+---
+
+<div class="flex flex-row gap-8 items-center">
+
+```tsx
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	const { formFieldProps, childProps } = useFormField(props);
+
+	return (
+		<FormField {...formFieldProps}>
+			<input {...childProps} ref={ref} />
+		</FormField>
+	)
+})
+```
+
+```tsx
+export type UseFormFieldProps = {
+	name: string;
+	label: string;
+}
+
+export function useFormField
+	<T extends UseFormFieldProps>(props: T) {
+	const id = useId();
+	const { name, label, ...childProps } = props;
+
+	return {
+		formFieldProps: { id, name, label },
+		childProps: { id, name, ...childProps }
+	}
+}
+```
+
+</div>
+
+<!--
+- `useFormField` _requires_ the name and the label
+- Need to pass through everything else so it's available in `childProps`
+- We can do something neat with..
+-->
+
+---
+layout: center
+---
+
+<div class="flex flex-row gap-8 items-center">
+
+```tsx
+export type InputProps =
+	ComponentProps<'input'> &
+	{ name: string, label: string }
+
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	const { formFieldProps, childProps } = useFormField(props);
+
+	return (
+		<FormField {...formFieldProps}>
+			<input {...childProps} ref={ref} />
+		</FormField>
+	)
+})
+```
+
+```tsx {1-4}
+export type UseFormFieldProps = {
+	name: string;
+	label: string;
+}
+
+export function useFormField
+	<T extends UseFormFieldProps>(props: T) {
+	const id = useId();
+	const { name, label, ...childProps } = props;
+
+	return {
+		formFieldProps: { id, name, label },
+		childProps: { id, name, ...childProps }
+	}
+}
+```
+
+</div>
+
+<!--
+- `UseFormFieldProps`, and use it with...
+-->
+
+---
+layout: center
+---
+
+<div class="flex flex-row gap-8 items-center">
+
+```tsx
+export type InputProps =
+	ComponentProps<'input'> &
+	UseFormFieldProps
+
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	const { formFieldProps, childProps } = useFormField(props);
+
+	return (
+		<FormField {...formFieldProps}>
+			<input {...childProps} ref={ref} />
+		</FormField>
+	)
+})
+```
+
+```tsx {1-4}
+export type UseFormFieldProps = {
+	name: string;
+	label: string;
+}
+
+export function useFormField
+	<T extends UseFormFieldProps>(props: T) {
+	const id = useId();
+	const { name, label, ...childProps } = props;
+
+	return {
+		formFieldProps: { id, name, label },
+		childProps: { id, ...childProps }
+	}
+}
+```
+
+</div>
+
+<!--
+- `InputProps`
+- Not only convenient, reads nicely
+  - Props must satisfy `useFormField` and `<input/>`
+- Doing the same thing with `<select/>` we get...
+-->
+
+---
+layout: center
+---
+
+<div class="flex flex-row gap-8 items-center">
+
+```tsx
+export type InputProps =
+	ComponentProps<'input'> &
+	UseFormFieldProps;
+
+export const Input = forwardRef<
+	HTMLInputElement,
+	InputProps
+>((props, ref) => {
+	const { formFieldProps, childProps } = useFormField(props);
+
+	return (
+		<FormField {...formFieldProps}>
+			<input {...childProps} ref={ref} />
+		</FormField>
+	)
+})
+```
+
+```tsx
+export type SelectProps =
+	ComponentProps<'select'> &
+	UseFormFieldProps
+
+export const Select = forwardRef<
+	HTMLInputElement,
+	SelectProps
+>((props, ref) => {
+	const { formFieldProps, childProps } = useFormField(props);
+
+	return (
+		<FormField {...formFieldProps}>
+			<select {...childProps} ref={ref} />
+		</FormField>
+	)
+})
+```
+
+</div>
+
+<!--
+- Two components which are still pretty similar
+- Just much smaller because of underlying `FormField` abstraction
+- Can go further with this
+  - `<textarea />`
+  - Autocompleting dropdown
+  - DatePicker (if you managed to build one without tearing out all your hair)
+-->
+
+---
+layout: center
+---
+
+<div class="flex flex-row items-center gap-4">
+
+<div class="scale-90">
+  
+```tsx
+const schema = z.object({
+	email: z.string().email(),
+	password: z.string().min(8),
+	favouriteFruit: z.union([
+		z.literal("apple"),
+		z.literal("orange")
+	])
+})
+
+function SignupForm() {
+	const form = useZodForm({ schema })
+
+	return (
+		<Form form={form} onSubmit={form.handleSubmit(console.log)}>
+			<Input
+			  type='email' label='Email'
+			  {...form.register('email')}
+			/>
+			<Input
+			  type='password' label='Password'
+			  {...form.register('password')}
+			/>
+			<Select
+				label="Favourite Fruit"
+				{...form.register("favouriteFruit")}
+			>
+				{ ... }
+			</Select>
+			<button type='submit' />
+		</Form>
+	)
+}
+```
+  
+</div>
+  
+<div>
+
+# Our Form System
+  
+- `schema` provides types _and_ validation
+- `useZodForm` manages all state
+- Inputs render errors automatically
+- Submission is fully typesafe
+  
+</div>
+
+</div>
+
+<!--
+- Now... unless _nothing_ else comes up...
+
+*pause*
+
+- This constitutes most of the form layer that we use at Spacedrive
+  - don't care about favourite fruit
+
+- `schema` provides types _and_ validation
+- One call to `useZodForm` manages all state
+- Inputs render errors automatically
+- Submission is fully typesafe
+-->
