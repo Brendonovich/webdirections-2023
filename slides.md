@@ -11,7 +11,7 @@ title: Building Type-Safe Forms in React
 
 <!--
 - Glad to be here
-- As you know, I'm here to talk to you about forms...
+- As you know, I'm here to talk to you about forms... who does that?
 -->
 
 ---
@@ -26,7 +26,7 @@ layout: center
 </div>
 
 <!--
-- Building an open-source file explorer that synchronises an index of files
+- Building an open-source, cross-platform file explorer that synchronises an index of files
 - Using Rust for backend and web tech for frontend - TypeScript, React, etc.
 - We have a lot of forms...
 -->
@@ -84,6 +84,11 @@ layout: default
 ---
 layout: center
 ---
+
+<v-click>
+
+
+</v-click>
 
 <div class='flex flex-row space-x-8 items-center'>
 
@@ -145,9 +150,22 @@ function SignupForm() {
 layout: center
 ---
 
-<v-click at="1">
-- TODO: NextJS
-- TODO: Remix
+<v-click>
+
+<div class="absolute left-1/10 -top-10 rotate-30 z-10">
+  <div class="relative">
+	<img class="h-34 w-34" src="/assets/nextjs.png" />
+    <span class="absolute right-0 bottom-2 -scale-x-100 text-6xl">👀</span>
+  </div>
+</div>
+
+<div class="absolute right-1/10 -top-10 -rotate-30 z-10">
+  <div class="relative">
+	<img class="h-34 w-34 rounded-lg" src="/assets/remix-logo.svg" />
+    <span class="absolute -left-4 bottom-0 text-6xl">👀</span>
+  </div>
+</div>
+
 </v-click>
 
 ```tsx
@@ -183,9 +201,6 @@ function SignupForm() {
 
 - Some tools have their own ways of managing forms,
 - What we'll talk about isn't necessarily mutually exclusive to them
-
-*click*
-
 - They won't be considered as part of this
 -->
 
@@ -242,7 +257,7 @@ function SignupForm() {
 
 *click*
 
-- Also, not typesafe
+- Also, not typesafe - what do I regard as typesafe?
 - Form data being spread over each `useState` rather than centralised in one place
 - Names aren't typesafe, but in this case doesn't really matter
 - What can we do about this? First thing we'll use is...
@@ -342,6 +357,8 @@ function SignupForm() {
 
 *click*
 
+- In this case having typesafe name is vital
+
 - Not sure about you, but I much prefer this form
 - It's not a whole lot less code, but we're only just getting started 😉
 -->
@@ -426,7 +443,7 @@ type Form = {
 }
 
 function SignupForm() {
-	const form = useForm<Form>()'
+	const form = useForm<Form>()
 
 	return (
 		<form onSubmit={
@@ -451,11 +468,15 @@ function SignupForm() {
 
 </div>
 
-<div class='flex flex-col items-center space-y-8'>
+<div class='flex flex-col items-center'>
 
-<div>
+<div class="flex flex-row justify-between w-full">
 
 # Adding Types
+
+<img src="/assets/typescript-logo.svg" class="h-12 w-12 -mt-2">
+
+</div>
 
 <v-clicks at='0'>
 
@@ -464,8 +485,6 @@ function SignupForm() {
 - Names used in `register` can be checked
 
 </v-clicks>
-
-</div>
 
 </div>
 
@@ -482,8 +501,13 @@ function SignupForm() {
 *click*
 
 - `handleSubmit` will receive correct types
+
+*click*
+
 - Field names used in `register` calls will be checked
-- TAKEAWAY: Source of truth for type + source of truth for runtime (`useForm`) = dispersion of types through your whole app
+
+*click*
+
 - Not entirely reliable though
 -->
 
@@ -515,6 +539,9 @@ function CountForm() {
 
 <!--
 Take this example:
+
+*click*
+
 - Single number field
 
 *click*
@@ -651,9 +678,13 @@ const form = useForm<z.infer<typeof schema>>({
 - First, we declare schema
   - Represents the shape of `handleSubmit` data + defines validations
   - Zod comes with a bunch of validation functions, so we can validate emails easily and enforce minimum lengths
+
 *click*
+
 - Second, we infer the type of the form _from_ the schema, effectively killing 2 birds with 1 stone
+
 *click*
+
 - Last, we set the schema as our form's 'resolver', meaning that it will be used for all validation
 -->
 
@@ -724,9 +755,9 @@ function CountForm() {
 
 # Number Inputs 😳
 
-- `z.number` would fail validation
-- `z.coerce` converts string to number
-- `<NumberInput />` would be better
+- Bad: `z.number` wouldn't work
+- Better: `z.coerce` to string to number
+- Best: Custom `<NumberInput />`
 
 </div>
 
@@ -738,7 +769,9 @@ function CountForm() {
   - `z.number()` would produce error if not used, preventing `onSubmit` for ever being called
 
 - Great, we've got Zod and RHF working together, but...
+
 *click*
+
 - We've got code duplication on every form
 - Wouldn't it be great to have a **custom hook** that can wrap `schema` in `zodResolver`, and also insert the generic for us?
 - Well...
@@ -803,9 +836,10 @@ export function useZodForm<T extends ZodSchema>({
 <!--
 - How about this?
   - Calls `useForm` and automatically provides `schema` as `resolver`
+
 - These types may look scary, but don't worry!
   - `UseZodFormProps` is just the type that `useForm` expects, but removes `resolver` since we're providing it ourselves, and adds `schema`
-  - `T` represents the type of the schema we provide - without it, types wouldn't be passed through to things like `handleSubmit`
+  - `T` represents the type of the schema we provide - without it there would be no type inference
 -->
 
 ---
@@ -864,10 +898,12 @@ function SignupForm() {
 - So here's where we are so far
   - All form logic hidden behind hook
   - No more manual types
-  - What I think a good TS experience should be
+  	- What I think a good TS experience should be
     - Types should be declared once + flow through
 - ...
+
 *click*
+
 - What if validation doesn't succeed?
 - RHF can help here too
 -->
@@ -882,9 +918,9 @@ layout: center
 
 ```tsx {4,10,14|}
 function SignupForm() {
-	const form = useZodForm({ schema })'
+	const form = useZodForm({ schema })
 
-	const { errors } = form.formState'
+	const { errors } = form.formState
 
 	return (
 		<form onSubmit={form.handleSubmit(console.log)}>
@@ -916,6 +952,7 @@ function SignupForm() {
 
 ---
 layout: center
+clicks: 1
 ---
 
 <div class='flex flex-row items-center gap-8'>
@@ -1000,7 +1037,7 @@ function SignupForm() {
 
 </div>
 
-```tsx {|2,13|14-18,23|all|none} {at:0}
+```tsx {|2,13|14-18,22|all|none} {at:0}
 import { ComponentProps, forwardRef } from 'react'
 import { useFormContext } from 'react-hook-form'
 
@@ -1054,7 +1091,7 @@ export const Input = forwardRef<
 
 ---
 layout: center
-clicks: 2
+clicks: 1
 ---
 
 <div class="flex flex-col items-center">
@@ -1175,7 +1212,9 @@ export function Form<T extends FieldValues>({
   - `disabled` css selector will be applied
 - While form is submitting, this disabled state will propagate
  - If `handleSubmit` contains an async function, it will wait to resolve
+
 - All in all...
+
 *click*
 -->
 
@@ -1341,6 +1380,7 @@ export const Input = forwardRef<
 - Need to set `htmlFor` and `id` to the same value
   - `name` might work fine
 - But...
+
 *click*
 -->
 
@@ -1395,6 +1435,7 @@ export const Input = forwardRef<
 - What if `name` _Isn't_ unique?
 - This system doesn't stop us having multiple forms on one page
 - `id` is supposed to be unique on the whole page
+-  If you want to really overengineer your form abstraction, `name` isn't good enough
 - React gives us a solution...
 
 *click*
@@ -1491,7 +1532,9 @@ function SignupForm() {
 
 <!--
 - Ok, surely we're done working on forms now...
+
 *click*
+
 - Ah right... there's more to forms than just text inputs...
 -->
 
@@ -1902,8 +1945,10 @@ export function FormField(props: FormFieldProps) {
 </div>
 
 <!--
-- This is pretty good, but i'm not a fan of...
+- This is pretty good, but I'm not a fan of...
+
 *click*
+
 - `useId` being here.
 - Maybe you're fine with that, but I'm not
   - Going to be called in multiple components
@@ -1979,10 +2024,20 @@ export const Input = forwardRef<
 
 <v-click>
 
+<div class="absolute -top-18 left-4 rotate-20">
+
+<div class="relative">
+
+<span class="text-5xl absolute -right-4 -scale-x-100">👀</span>
+
 <img
-	class="w-20 h-20 absolute -top-12 right-4 -rotate-30"
-	src="/assets/zod-logo.svg"
+	class="w-20 h-20"
+	src="/assets/typescript-logo.svg"
 />
+
+</div>
+
+</div>
 
 </v-click>
 
@@ -2056,7 +2111,7 @@ export function useFormField
 
 <!--
 - `useFormField` _requires_ the name and the label
-- Need to pass through everything else so it's available in `childProps`
+- Use generic to pass through original props to child props
 - We can do something neat with..
 -->
 
@@ -2213,7 +2268,7 @@ export const Select = forwardRef<
 - Can go further with this
   - `<textarea />`
   - Autocompleting dropdown
-  - DatePicker (if you managed to build one without tearing out all your hair)
+  - DatePicker (good luck)
 -->
 
 ---
@@ -2223,7 +2278,7 @@ layout: center
 <div class="flex flex-row items-center gap-4">
 
 <div class="scale-90">
-  
+
 ```tsx
 const schema = z.object({
 	email: z.string().email(),
@@ -2258,18 +2313,18 @@ function SignupForm() {
 	)
 }
 ```
-  
+
 </div>
-  
+
 <div>
 
 # Our Form System
-  
+
 - `schema` provides types _and_ validation
 - `useZodForm` manages all state
 - Inputs render errors automatically
 - Submission is fully typesafe
-  
+
 </div>
 
 </div>
@@ -2286,4 +2341,41 @@ function SignupForm() {
 - One call to `useZodForm` manages all state
 - Inputs render errors automatically
 - Submission is fully typesafe
+- [StackBlitz demo](https://stackblitz.com/edit/the-ultimate-form-abstraction-axkbsk?file=src%2FApp.tsx)
 -->
+
+---
+layout: two-cols
+---
+
+<div class="flex flex-col h-full">
+
+<div class="flex-1" />
+
+# Me
+
+- Website: https://brendonovich.dev
+- Twitter: @brendonovichdev
+- GitHub: @brendonovich
+
+<div class="flex-1" />
+
+</div>
+
+::right::
+
+<div class="flex flex-col h-full">
+
+<div class="flex-1" />
+
+<div class="mb-2">
+<img src="/assets/spacedrive-logo.png" class='h-12'/>
+</div>
+
+- Website: https://spacedrive.com
+- Twitter: @spacedriveapp
+- GitHub: @spacedriveapp
+
+<div class="flex-1" />
+
+</div>
