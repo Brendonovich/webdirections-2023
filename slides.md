@@ -11,7 +11,6 @@ title: Building Type-Safe Forms in React
 
 <!--
 - Glad to be here
-- As you know, I'm here to talk to you about forms... who does that?
 -->
 
 ---
@@ -79,6 +78,9 @@ layout: default
 - Managing state, field validation, submitting can be annoying
   - Especially when doing client processing for better UX
   - Hard to have good DX
+- At Spacedrive we have a system that works fairly well
+- Instead of showing what we do, will build from the ground up
+- Hopefully by the end you'll be equipped to not tweet like this
 -->
 
 ---
@@ -142,8 +144,7 @@ function SignupForm() {
 
 *click*
 
-- Gets the job done for basic forms, but is cumbersome and could go wrong
-- Input names aren't validated, bindings could be hooked up incorrectly
+- Gets the job done for basic forms, but is cumbersome + could hook up bindings incorrectly
 -->
 
 ---
@@ -200,7 +201,7 @@ function SignupForm() {
 *click*
 
 - Some tools have their own ways of managing forms,
-- What we'll talk about isn't necessarily mutually exclusive to them
+- What we'll talk about isn't mutually exclusive to them
 - They won't be considered as part of this
 -->
 
@@ -259,7 +260,6 @@ function SignupForm() {
 
 - Also, not typesafe - what do I regard as typesafe?
 - Form data being spread over each `useState` rather than centralised in one place
-- Names aren't typesafe, but in this case doesn't really matter
 - What can we do about this? First thing we'll use is...
 -->
 
@@ -268,7 +268,7 @@ layout: center
 class: text-center
 ---
 
-<img class='h-64' src='/assets/rhf-logo.png' />
+<img class='h-80' src='/assets/rhf-logo.png' />
 
 <!--
 - React Hook Form
@@ -354,10 +354,9 @@ function SignupForm() {
 *click*
 
 - `name` prop and data bindings all handled by single `register` call
+- In this case having typesafe name is vital
 
 *click*
-
-- In this case having typesafe name is vital
 
 - Not sure about you, but I much prefer this form
 - It's not a whole lot less code, but we're only just getting started 😉
@@ -500,7 +499,7 @@ function SignupForm() {
 
 *click*
 
-- `handleSubmit` will receive correct types
+- Now sure type of data in `handleSubmit`
 
 *click*
 
@@ -720,6 +719,7 @@ function SignupForm() {
 <!--
 Here's what that looks like
 - Schema replaces type
+- In the case of number input example
 -->
 
 ---
@@ -1079,8 +1079,6 @@ export const Input = forwardRef<
 - Can then get the field's state and render the error!
 
 *click*
-
-- Notice that we override the `name` field of the component's props, since `name` is now required for use in `getFieldState`.
 
 - While we're here, lets do something about...
 
@@ -1778,6 +1776,8 @@ export const Select = forwardRef<
 *click*
 
 - So let's move the label and error into their own component...
+
+FIX CLICKS NUMBER
 -->
 
 ---
@@ -2112,6 +2112,7 @@ export function useFormField
 <!--
 - `useFormField` _requires_ the name and the label
 - Use generic to pass through original props to child props
+
 - We can do something neat with..
 -->
 
@@ -2345,8 +2346,12 @@ function SignupForm() {
 -->
 
 ---
-layout: two-cols
+layout: center
 ---
+
+<div class="flex flex-col items-center">
+
+<div class="flex flex-row space-x-8">
 
 <div class="flex flex-col h-full">
 
@@ -2354,15 +2359,13 @@ layout: two-cols
 
 # Me
 
-- Website: https://brendonovich.dev
-- Twitter: @brendonovichdev
-- GitHub: @brendonovich
+- **Website**: https://brendonovich.dev
+- **Twitter**: @brendonovichdev
+- **GitHub**: @brendonovich
 
 <div class="flex-1" />
 
 </div>
-
-::right::
 
 <div class="flex flex-col h-full">
 
@@ -2372,10 +2375,24 @@ layout: two-cols
 <img src="/assets/spacedrive-logo.png" class='h-12'/>
 </div>
 
-- Website: https://spacedrive.com
-- Twitter: @spacedriveapp
-- GitHub: @spacedriveapp
+- **Website**: https://spacedrive.com
+- **Twitter**: @spacedriveapp
+- **GitHub**: @spacedriveapp
 
 <div class="flex-1" />
+
+</div>
+
+</div>
+
+<div class="mt-8">
+
+# This Talk
+
+- https://webdirections-2023.brendonovich.dev
+- **React Hook Form**: https://react-hook-form.com
+- **Zod**: https://zod.dev
+
+</div>
 
 </div>
